@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <% include ../partials/trangchu/head %>
+    <title>Trang Chủ - TB TEST</title>
+</head>
+
+<body>
+    <% include ../partials/trangchu/header %>
+    <script>
+    function func() {
+        Swal.fire({
+            title: 'Nhập email của bạn',
+            input: 'email',
+            showCancelButton: true,
+            confirmButtonText: 'Gửi',
+            showLoaderOnConfirm: true,
+            preConfirm: (input) => {
+                $.post(".", { email: input }, data => {
+                    Swal.fire({ icon: 'success', title: 'Thành công!', text: "Đã gửi tin nhắn xác nhận tới email: " + input });
+                });
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        })
+    }
+    </script>
+    <header class="masthead bg-primary text-white text-center" style="background-position: top;background-size: cover;background-repeat: no-repeat;height: 100vh;">
+        <div class="container">
+            <p class="invisible" id="ha-test" style="color: rgb(245,14,83);font-size: 55px;font-family: Montserrat, sans-serif;margin: 0;">HA TEST</p>
+            <div>
+                <div class="row gr-1">
+                    <div class="col col-12" data-aos="fade-up">
+                        <div class="card">
+                            <div class="card-body text-danger" style="font-family: Montserrat, sans-serif;">
+                                <%if(status=='ok'){%>
+                                Xác minh email thành công! Bấm <a href='../'>vào đây</a> để về trang chủ
+                                <%} else {%>
+                                Mã code sai?!? Bấm <a href="#" onclick="func()">vào đây</a> để gửi lại email
+                                <%}%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <% include ../partials/trangchu/footer %>
+</body>
+
+</html>

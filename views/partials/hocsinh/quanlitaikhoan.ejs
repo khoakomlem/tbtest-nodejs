@@ -1,0 +1,99 @@
+<style type="text/css">
+.wrap {
+    margin-top: 7px;
+}
+</style>
+<div class="card-body" style="height: 74vh; text-align: left;">
+    <div style="margin: 20px 20px 20px 20px">
+        <h3>Quản lí tài khoản</h3>
+        <b>Hãy cập nhật đầy đủ thông tin</b><br><br>
+        <div class="wrap">
+            <b>Tên: </b>
+            <span id="name">
+                <%- name %>&nbsp</span>
+            <input id="change_name" class="btn btn-secondary font-weight-bold" type="submit" style="width: 7rem;border-radius: 10px;height: 2.2rem;font-family: Quicksand, sans-serif;background: #ff7551;border: none;" value="Đổi tên">
+        </div>
+        <div class="wrap">
+            <b>Email khôi phục: </b>
+            <span id="email">
+                <%- email %>&nbsp</span>
+            <input id="change_email" class="btn btn-secondary font-weight-bold" type="submit" style="width: 7rem;border-radius: 10px;height: 2.2rem;font-family: Quicksand, sans-serif;background: #ff7551;border: none;" value="Đổi Email">
+        </div class="wrap">
+        <div class="wrap">
+            <b>Loại tài khoản: </b>
+            <% if (type == "hocsinh") {%> Học sinh
+            <%} if (type == "giaovien") {%> Giáo viên
+            <% } %>
+        </div>
+        <div class="wrap">
+            <b>Mật khẩu: </b>&nbsp
+            <span id="password">(Vì lí do bảo mật nên không hiện)&nbsp</span>
+            <input id="change_pass" name="create" class="btn btn-secondary font-weight-bold" type="submit" style="width: 7rem;border-radius: 10px;height: 2.2rem;font-family: Quicksand, sans-serif;background: #ff7551;border: none;" value="Đổi MK">
+        </div>
+        <form method="POST" action="/home/logout">
+            <input id="logout" name="logout" class="btn btn-secondary font-weight-bold" type="submit" style="position: absolute;bottom: 30px;width: 7rem;border-radius: 10px;height: 2.2rem;font-family: Quicksand, sans-serif;background: #ff7551;border: none;" value="Đăng xuất">
+        </form>
+    </div>
+</div>
+<script>
+$('#change_name').click(function() {
+    Swal.fire({
+        title: 'Nhập tên hiển thị mới của bạn',
+        input: 'text',
+        inputAttributes: {
+            autocapitalize: 'off'
+        },
+        showCancelButton: true,
+        confirmButtonText: 'OK',
+        showLoaderOnConfirm: true,
+        preConfirm: (input) => {
+            $.post("home/hocsinh/quanlitaikhoan", { what: 'name', data: input }, data => {
+                Swal.fire({ icon: 'success', title: 'Thành công!', text: data.mess }).then(results => {
+                    $('#name').html(data.data);
+                });
+            });
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+    })
+})
+$('#change_email').click(function() {
+    Swal.fire({
+        title: 'Nhập email khôi phục mới của bạn',
+        input: 'email',
+        inputAttributes: {
+            autocapitalize: 'off'
+        },
+        showCancelButton: true,
+        confirmButtonText: 'OK',
+        showLoaderOnConfirm: true,
+        preConfirm: (input) => {
+            $.post("home/hocsinh/quanlitaikhoan", { what: 'email', data: input }, data => {
+                Swal.fire({ icon: 'info', title: 'Thông báo!', text: data.mess }).then(results => {
+                    $('#email').html(data.data);
+                });
+            });
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+    })
+})
+$('#change_pass').click(function() {
+    Swal.fire({
+        title: 'Nhập mật khẩu mới của bạn',
+        input: 'password',
+        inputAttributes: {
+            autocapitalize: 'off'
+        },
+        showCancelButton: true,
+        confirmButtonText: 'OK',
+        showLoaderOnConfirm: true,
+        preConfirm: (input) => {
+            $.post("home/hocsinh/quanlitaikhoan", { what: 'password', data: input }, data => {
+                Swal.fire({ icon: 'success', title: 'Thành công!', text: data.mess }).then(results => {
+                    $('#password').html("(Mật khẩu gồm " + data.data + " kí tự) ");
+                });
+            });
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+    })
+})
+</script>

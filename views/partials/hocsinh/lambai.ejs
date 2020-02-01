@@ -1,0 +1,217 @@
+<% 
+
+var s = Math.floor(time_left/1000);
+var h = Math.floor(s/3600);
+var m = Math.floor((s - h*3600)/60);
+s = s - h*3600 - m*60;
+
+%>
+<style type="text/css">
+.dropdown {
+    background-color: #e9e7e7;
+    margin-bottom: 10px;
+    width: 280px;
+    display: inline-block;
+    /*background-color: ;*/
+    border-radius: 5px;
+    box-shadow: 0 0 2px rgb(204, 204, 204);
+    transition: all .5s ease;
+    position: relative;
+    font-size: 14px;
+    color: #474747;
+    height: 48px;
+    text-align: left
+}
+
+.dropdown:focus {
+    outline: none !important;
+}
+
+.dropdown .select {
+    color: #FFF;
+    text-align: center;
+    cursor: pointer;
+    display: block;
+    padding: 6%;
+}
+
+.dropdown .select>i {
+    font-size: 13px;
+    color: #888;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+    float: right;
+    line-height: 20px
+}
+
+.dropdown:hover {
+    box-shadow: 0 0 4px rgb(204, 204, 204)
+}
+
+.dropdown:active {
+    background-color: #f8f8f8
+}
+
+.dropdown.active:hover,
+.dropdown.active {
+    box-shadow: 0 0 4px rgb(204, 204, 204);
+    border-radius: 5px 5px 0 0;
+    /*background-color: #f8f8f8*/
+}
+
+.dropdown.active .select>i {
+    transform: rotate(-90deg)
+}
+
+.dropdown .dropdown-menu {
+    position: absolute;
+    background-color: #fff;
+    width: 100%;
+    left: 0;
+    margin-top: 1px;
+    box-shadow: 0 1px 2px rgb(204, 204, 204);
+    border-radius: 0 1px 5px 5px;
+    /*overflow: hidden;*/
+    display: none;
+    max-height: 200px;
+    /*overflow-y: auto;*/
+    z-index: 9
+}
+
+.dropdown .dropdown-menu li {
+    padding: 10px;
+    transition: all .2s ease-in-out;
+    cursor: pointer
+}
+
+.dropdown .dropdown-menu {
+    padding: 0;
+    list-style: none
+}
+
+.dropdown .dropdown-menu li:hover {
+    background-color: #f2f2f2
+}
+
+.dropdown .dropdown-menu li:active {
+    background-color: #e2e2e2
+}
+
+.center {
+    text-align: center;
+}
+</style>
+<div class="card-body" style="height: 74vh;">
+    <div class="row">
+        <div class="col">
+            <h1 style="color: rgb(0,0,0);font-size: 150%;font-family: Quicksand, sans-serif;">Thời gian còn lại: <span id="timeleft">
+                    <%-h%> giờ
+                    <%-m%> phút
+                    <%-s%> giây</span></h1>
+        </div>
+        <div class="col">
+            <h1 style="color: rgb(0,0,0);font-size: 34px;font-family: Quicksand, sans-serif;">Mã đề:
+                <%-test.id%>
+            </h1>
+        </div>
+    </div>
+    <form method="POST" action="/home/lambai">
+        <div class="row">
+            <% var index=-1; for (var i in data){ index++;%>
+            <div class="col pl-5 col-12 mb-3" style="font-family: Quicksand, sans-serif;">
+                <h1 class="text-left text-dark"><span class="mr-2 num-ques" style="/*padding-top: 10px!important;*/font-family: Montserrat, sans-serif;/*font-size: 70px;*/">
+                        <%-index+1%></span><input type="text" class="input-question" value="<%-data[i].question%>" style="font-size: 3rem;width: 90%;padding-top: 0!important;font-family: Quicksand, sans-serif;background-color: rgb(233,231,231);border: none;border-radius: 10px;padding: 10px;padding-top: 15px;margin: 0 auto;/*position: absolute;*/top: 1px;height: 4.5rem" disabled="" readonly=""></h1>
+            </div>
+            <div class="col col-12" style="float: left;">
+                <p class="text-bold mr-3 ans-text" style="display: inline;color: rgb(0,0,0);font-size: 38px;float: left;/*margin-left: 3.3rem;*/font-family: Quicksand, sans-serif;">A</p>
+                <div class="p-3 ans-input" style="color:#343a40;text-align:left;display: inline;background-color: rgb(233,231,231);border: none;border-radius: 10px!important;float: left;font-family: Quicksand, sans-serif;/*width: 85%;*/font-size: 20px;">
+                    <%-data[i].ansA%>
+                </div>
+            </div>
+            <div class="col col-12" style="float: left;">
+                <p class="text-bold mr-3 ans-text" style="display: inline;color: rgb(0,0,0);font-size: 38px;float: left;/*margin-left: 3.3rem;*/font-family: Quicksand, sans-serif;">B</p>
+                <div class="p-3 ans-input" style="color:#343a40;text-align:left;display: inline;background-color: rgb(233,231,231);border: none;border-radius: 10px!important;float: left;font-family: Quicksand, sans-serif;/*width: 85%;*/font-size: 20px;">
+                    <%-data[i].ansB%>
+                </div>
+            </div>
+            <div class="col col-12" style="float: left;">
+                <p class="text-bold mr-3 ans-text" style="display: inline;color: rgb(0,0,0);font-size: 38px;float: left;/*margin-left: 3.3rem;*/font-family: Quicksand, sans-serif;">C</p>
+                <div class="p-3 ans-input" style="color:#343a40;text-align:left;display: inline;background-color: rgb(233,231,231);border: none;border-radius: 10px!important;float: left;font-family: Quicksand, sans-serif;/*width: 85%;*/font-size: 20px;">
+                    <%-data[i].ansC%>
+                </div>
+            </div>
+            <div class="col col-12" style="float: left;">
+                <p class="text-bold mr-2 ans-text" style="display: inline;color: rgb(0,0,0);font-size: 38px;float: left;/*margin-left: 3.3rem;*/font-family: Quicksand, sans-serif;">D</p>
+                <div class="p-3 ans-input" style="color:#343a40;text-align:left;display: inline;background-color: rgb(233,231,231);border: none;border-radius: 10px!important;float: left;font-family: Quicksand, sans-serif;/*width: 85%;*/font-size: 20px;">
+                    <%-data[i].ansD%>
+                </div>
+            </div>
+            <div class="col col-12">
+                <div class="dropdown" id="dropdown<%-index%>">
+                    <div class="select">
+                        <span style="color: black">Chọn đáp án</span>
+                        <i class="fa fa-chevron-left"></i>
+                    </div>
+                    <input type="hidden" name="answer<%-index%>" value="pas">
+                    <ul class="dropdown-menu" id="dropdown-menu<%-index%>" style="color: red">
+                        <li id="a" class="center">A</li>
+                        <li id="b" class="center">B</li>
+                        <li id="c" class="center">C</li>
+                        <li id="d" class="center">D</li>
+                    </ul>
+                </div>
+            </div>
+            <script>
+                $('#dropdown<%-index%>').click(function () {
+                    $(this).attr('tabindex', 1).focus();
+                    $(this).toggleClass('active');
+                    $(this).find('#dropdown-menu<%-index%>').slideToggle(300);
+                });
+
+            $('#dropdown<%-index%>').focusout(function () {
+                $(this).removeClass('active');
+                $(this).find('#dropdown-menu<%-index%>').slideUp(300);
+            });
+
+            $('#dropdown<%-index%> #dropdown-menu<%-index%> li').click(function () {
+                $(this).parents('#dropdown<%-index%>').find('span').text($(this).text());
+                $(this).parents('#dropdown<%-index%>').find('input').attr('value', $(this).text().toUpperCase());
+            });
+        </script>
+            <%}%>
+            <hr>
+            <div class="col col-12" style="margin-top: 30px;margin-bottom: 40px;">
+                <!-- <div class="row rowbtn mb-3" style="width: 80%;text-align: center;margin: 0 auto;"> -->
+                <!-- <div class="col"> -->
+                <input class="btn btn-secondary font-weight-bold" name="nopbai" type="submit" style="width: 66.6%;border-radius: 50px;height: 3rem;font-family: Quicksand, sans-serif;background: #259932;border: none;" value="OK">
+                <!-- <input class="btn btn-secondary font-weight-bold" name="nopbailuon" type="submit" style="margin-top: 10px;width: 66.6%;border-radius: 50px;height: 3rem;font-family: Quicksand, sans-serif;background: red;border: none;" value="Nộp bài và chấm điểm luôn"> -->
+                <!-- <input onclick="$('#ans').val('a')" class="btn btn-secondary font-weight-bold" name="thoatde" type="submit" style="margin-top: 10px;width: 33.3%;border-radius: 50px;height: 3rem;font-family: Quicksand, sans-serif;background: red;border: none;" value="Thoát đề và không lưu kết quả"> -->
+                <!-- </div> -->
+                <!-- </div> -->
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+var timeleft = Math.floor(parseInt('<%-time_left%>') / 1000) - 30;
+var h = Math.floor(timeleft / 3600);
+var m = Math.floor((timeleft - h * 3600) / 60);
+var s = timeleft - h * 3600 - m * 60;
+var alerted = false;
+clearInterval(interval);
+var interval = setInterval(() => {
+    if (timeleft > 0)
+        --timeleft;
+
+    h = Math.floor(timeleft / 3600);
+    m = Math.floor((timeleft - h * 3600) / 60);
+    s = timeleft - h * 3600 - m * 60;
+    $('#timeleft').html(h + ' giờ ' + m + ' phút ' + s + 'giây');
+    if (timeleft <= 0 && !alerted) {
+        alerted = true;
+        setTimeout(() => { location.assign('') }, 31000);
+        Swal.fire({ icon: 'info', title: 'Thông báo!', text: "Đã hết thời gian làm bài!!! Nếu bạn không nộp bài trong 30s, hệ thống sẽ tự động chấm 0 điểm", allowOutsideClick: false });
+    });
+}
+}, 1000);
+</script>

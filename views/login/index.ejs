@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <% include ../partials/trangchu/head %>
+    <title>Đăng Nhập - TB TEST</title>
+</head>
+
+<body>
+    <% include ../partials/trangchu/header %>
+    <% include ../partials/trangchu/headerlogreg %>
+    <div class="card-body text-danger" style="font-family: Montserrat, sans-serif;">
+        <form method="POST">
+            <h4 class="card-title" style="color:#259932;">ĐĂNG NHẬP</h4>
+            <h6 class="text-danger card-subtitle mb-md-4 mb-3" style="font-size: 13px;color: #259932!important;">Sử dụng tài khoản của TB TEST để đăng nhập</h6><input name="username" type="text" class="input-login mb-3" style="border-color: #259932;" placeholder="Tài khoản" required><input style="border-color: #259932" name="password" type="password" class="input-login mb-md-2 mb-3" placeholder="Mật khẩu" required><input class="btn btn-primary mb-4" type="submit" name="login" style="border-radius:50px;background: #259932;border:none;" value="Đăng Nhập">
+            <p style="margin-bottom:0; color:#259932;">Nếu bạn chưa có tài khoản, đăng kí&nbsp;<strong class="text-danger"><a class=" kgach" style="color:#259932;" href="../register/">tại đây</a> </strong> </p>
+            <p style="color:#259932;">Nếu bạn chưa có tài khoản quên mật khẩu, khôi phục&nbsp;<strong><a style="color:#259932;" class="font-weight-bold kgach" href="../recovery">tại đây</a></strong></p>
+        </form>
+    </div>
+    <% include ../partials/trangchu/footerlogreg %>
+    <% include ../partials/trangchu/footer %>
+</body>
+
+</html>

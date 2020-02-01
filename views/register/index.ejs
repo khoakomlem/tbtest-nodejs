@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <% include ../partials/trangchu/head %>
+    <title>Đăng Kí - TB TEST</title>
+</head>
+
+<body>
+    <% include ../partials/trangchu/header %>
+    <% include ../partials/trangchu/headerlogreg %>
+    <form method="POST">
+        <div class="card-body text-danger" style="font-family: Montserrat, sans-serif;">
+            <!-- <input type="hidden" name="type"> -->
+            <h4 style="color: #259932" class="card-title">ĐĂNG KÍ</h4>
+            <h6 class="text-danger card-subtitle mb-md-4 mb-3" style="font-size: 13px;color: #259932!important;">Vui lòng nhập đầy đủ thông tin</h6>
+            <input style="border-color: #259932" name="name" type="text" class="input-login mb-3" placeholder="Tên hiển thị">
+               
+            <input style="border-color: #259932" name="email" type="email" class="input-login mb-3" placeholder="Email" required>
+            <input style="border-color: #259932" name="username" type="text" class="input-login mb-3" placeholder="Tài khoản" required>
+            <input style="border-color: #259932" name = "password" type="password" class="input-login mb-md-2 mb-3" placeholder="Mật khẩu" required>
+            <select class="input-login mb-3" style="border-color: #259932;" name="type">
+                <option value="hocsinh">Tôi là học sinh</option>
+                <option value="giaovien">Tôi là giáo viên</option>
+            </select>
+            <input class="btn btn-primary mb-4" type="submit" style="border-radius:50px;background: #FFAFBD;  /* fallback for old browsers */ background: -webkit-linear-gradient(to right, #ffc3a0, #FFAFBD);  /* Chrome 10-25, Safari 5.1-6 */ background: #259932; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */border:none;" value="Đăng kí" name='signup'>
+                <p style="color: #259932">Nếu bạn đã có tài khoản,đăng nhập &nbsp;<strong class="text-danger"><a class="text-danger kgach" href="../login/">tại đây</a></strong></p>
+        </div>
+    </form>
+    <% include ../partials/trangchu/footerlogreg %>
+    <% include ../partials/trangchu/footer %>
+</body>
+
+</html>

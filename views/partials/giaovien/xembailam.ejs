@@ -1,0 +1,106 @@
+<style type="text/css">
+.previous {
+    position: relative;
+    left: -47%;
+    top: -1%;
+    background-color: #4CAF50;
+    color: black;
+    text-decoration: none;
+    display: inline-block;
+    padding: 9px 19px;
+    transition: 0.2s;
+}
+
+.previous:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.round {
+    border-radius: 50%;
+}
+</style>
+<div class="card-body" style="height: 74vh;/*display: flex;*//*justify-content: center;*/">
+    <a href="#" class="previous round">&#8249;</a>
+    <div class="row">
+        <div class="col col-12" style="font-family: Quicksand, sans-serif;text-align: center;">
+            <%
+                var s = Math.floor((data.done_at - data.do_at)/1000);
+                var min = Math.floor(s/60);
+                var s = s - min*60;
+
+                var length = question.length;
+
+                // test.data = JSON.parse(test.data);
+                var score = Math.round(data.correct/length*10, 2);
+            %>
+            <h1 style="color: rgb(0,0,0);font-family: Quicksand, sans-serif;font-size: 32px;">Bài làm của
+                <%-name%>
+            </h1>
+            <p class="text-left text-muted px-3" style="font-family: Quicksand, sans-serif;float: left;font-size: 25px;display: block;width: 100%;">Mã đề:
+                <%- data.id %><br>Thời gian làm bài :
+                <%- min %> phút
+                <%- s %> giây<br>Số câu đúng:
+                <%-data.correct%>/
+                <%-length%><br>Điểm:
+                <%-score%><br>Xếp loại:
+                <%
+                var xl = "";
+                if (score < 4) xl = "Yếu"; else
+                if (score < 6.5) xl = "Trung bình"; else
+                if (score < 8) xl = "Khá"; else
+                xl = "Giỏi";
+            %>
+                <%- xl %>
+                <br><br></p>
+        </div>
+        <%
+        var bailam = /*JSON.parse*/(data.bailam);
+        
+        var index=-1; 
+
+        for (var i in question){ index++; %>
+        <div>
+            <div class="col pl-5 col-12 mb-3" style="font-family: Quicksand, sans-serif;">
+                <h1 class="text-left text-dark"><span class="mr-2 num-ques" style="/*padding-top: 10px!important;*/font-family: Montserrat, sans-serif;/*font-size: 70px;*/">
+                        <%-index+1%></span>
+                    <textarea type="text" class="input-question" style="font-size: 3rem;width: 90%;padding-top: 0!important;font-family: Quicksand, sans-serif;background-color: rgb(233,231,231);border: none;border-radius: 10px;padding: 10px;padding-top: 15px;margin: 0 auto;/*position: absolute;*/top: 1px;height: 4.5rem" disabled="" readonly=""><%-question[i].question%></textarea>
+                </h1>
+            </div>
+            <div class="col col-12" style="float: left;">
+                <p class="text-bold mr-3 ans-text" style="display: inline;color: rgb(0,0,0);font-size: 38px;float: left;/*margin-left: 3.3rem;*/font-family: Quicksand, sans-serif;">A</p>
+                <div id="answerA<%-i%>" class="p-3 ans-input" style="color:#343a40;text-align:left;display: inline;background-color: rgb(233,231,231);border: none;border-radius: 10px!important;float: left;font-family: Quicksand, sans-serif;/*width: 85%;*/font-size: 20px;">
+                    <%-question[i].ansA%>
+                </div>
+            </div>
+            <div class="col col-12" style="float: left;">
+                <p class="text-bold mr-3 ans-text" style="display: inline;color: rgb(0,0,0);font-size: 38px;float: left;/*margin-left: 3.3rem;*/font-family: Quicksand, sans-serif;">B</p>
+                <div id="answerB<%-i%>" class="p-3 ans-input" style="color:#343a40;text-align:left;display: inline;background-color: rgb(233,231,231);border: none;border-radius: 10px!important;float: left;font-family: Quicksand, sans-serif;/*width: 85%;*/font-size: 20px;">
+                    <%-question[i].ansB%>
+                </div>
+            </div>
+            <div class="col col-12" style="float: left;">
+                <p class="text-bold mr-3 ans-text" style="display: inline;color: rgb(0,0,0);font-size: 38px;float: left;/*margin-left: 3.3rem;*/font-family: Quicksand, sans-serif;">C</p>
+                <div id="answerC<%-i%>" class="p-3 ans-input" style="color:#343a40;text-align:left;display: inline;background-color: rgb(233,231,231);border: none;border-radius: 10px!important;float: left;font-family: Quicksand, sans-serif;/*width: 85%;*/font-size: 20px;">
+                    <%-question[i].ansC%>
+                </div>
+            </div>
+            <div class="col col-12" style="float: left;">
+                <p class="text-bold mr-3 ans-text" style="display: inline;color: rgb(0,0,0);font-size: 38px;float: left;/*margin-left: 3.3rem;*/font-family: Quicksand, sans-serif;">D</p>
+                <div id="answerD<%-i%>" class="p-3 ans-input" style="color:#343a40;text-align:left;display: inline;background-color: rgb(233,231,231);border: none;border-radius: 10px!important;float: left;font-family: Quicksand, sans-serif;/*width: 85%;*/font-size: 20px;">
+                    <%-question[i].ansD%>
+                </div>
+            </div>
+        </div>
+        <script>
+        <% if (bailam[i] != question[i].ans) {%>
+        $('#answer<%-bailam[i]%><%-i%>').append('<img src="./../assets/img/incorrect.png" style="float: right; width: 32px;">');
+        <%}%>
+        $('#answer<%-question[i].ans%><%-i%>').append('<img src="./../assets/img/correct.png" style="float: right; width: 32px;">');
+        </script>
+        <%}%>
+    </div>
+</div>
+<script>
+$('.previous').click(() => reAjax({ what: 'thongtin' }, { what: 'thongtin', id: '<%-data.id%>' }));
+</script>

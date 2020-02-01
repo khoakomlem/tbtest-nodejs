@@ -1,0 +1,20 @@
+<div class="card-body" style="height: 74vh;">
+    <%if (!test[0]) {%>
+    <p class="text-muted" style="font-size: 22px;margin:0 auto;display: flex;   justify-content: center;   flex-direction: column;">Bạn chưa tạo đề nào.<br>Hãy thử tạo đề mới trên thanh menu</p>
+    <%}%>
+    <%for (var i in test) {%>
+    <div class="card my-4 kshadow" style="background-color: rgb(211,212,214);border: none;">
+        <div class="card-body my-2 mx-2" style="padding: 0;">
+            <h1 class="text-right text-dark mr-3 responsive1" style="width: 50%;float: right;padding: 0;font-size: 46px;">
+                <%-test[i].id%>
+            </h1>
+            <p class="text-left text-dark responsive pl-3" style="font-weight: bold;font-size: 25px;margin-bottom: 0;font-family: Montserrat, sans-serif;width: 50%;">
+                <a onclick="reAjax({what:'thongtin'}, {what: 'thongtin', id: '<%-test[i].id-%>'})" style="text-decoration: none; color:black" href="#">
+                    <%-test[i].name%></a>
+            </p>
+            <p class="text-left text-dark pl-3" style="font-family: Montserrat, sans-serif;">Đã có
+                <%-count[test[i].id]||0%> học sinh làm đề</p>
+        </div>
+    </div>
+    <%}%>
+</div>

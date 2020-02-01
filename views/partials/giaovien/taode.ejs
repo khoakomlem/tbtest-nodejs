@@ -1,0 +1,288 @@
+<style type="text/css">
+.dropdown {
+    background-color: #e9e7e7;
+    margin-bottom: 10px;
+    width: 280px;
+    display: inline-block;
+    /*background-color: ;*/
+    border-radius: 5px;
+    box-shadow: 0 0 2px rgb(204, 204, 204);
+    transition: all .5s ease;
+    position: relative;
+    font-size: 14px;
+    color: #474747;
+    height: 48px;
+    text-align: left
+}
+
+.dropdown:focus {
+    outline: none !important;
+}
+
+.dropdown .select {
+    color: #FFF;
+    text-align: center;
+    cursor: pointer;
+    display: block;
+    padding: 6%;
+}
+
+.dropdown .select>i {
+    font-size: 13px;
+    color: #888;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+    float: right;
+    line-height: 20px
+}
+
+.dropdown:hover {
+    box-shadow: 0 0 4px rgb(204, 204, 204)
+}
+
+.dropdown:active {
+    background-color: #f8f8f8
+}
+
+.dropdown.active:hover,
+.dropdown.active {
+    box-shadow: 0 0 4px rgb(204, 204, 204);
+    border-radius: 5px 5px 0 0;
+    /*background-color: #f8f8f8*/
+}
+
+.dropdown.active .select>i {
+    transform: rotate(-90deg)
+}
+
+.dropdown .dropdown-menu {
+    position: absolute;
+    background-color: #fff;
+    width: 100%;
+    left: 0;
+    margin-top: 1px;
+    box-shadow: 0 1px 2px rgb(204, 204, 204);
+    border-radius: 0 1px 5px 5px;
+    /*overflow: hidden;*/
+    display: none;
+    max-height: 200px;
+    /*overflow-y: auto;*/
+    z-index: 9
+}
+
+.dropdown .dropdown-menu li {
+    padding: 10px;
+    transition: all .2s ease-in-out;
+    cursor: pointer
+}
+
+.dropdown .dropdown-menu {
+    padding: 0;
+    list-style: none
+}
+
+.dropdown .dropdown-menu li:hover {
+    background-color: #f2f2f2
+}
+
+.dropdown .dropdown-menu li:active {
+    background-color: #e2e2e2
+}
+
+.tooltip {
+    font-family: Roboto, sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1.42857143;
+    text-align: left;
+    text-align: start;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none;
+    letter-spacing: normal;
+    word-break: normal;
+    word-spacing: normal;
+    word-wrap: normal;
+    white-space: normal;
+    /* ... */
+}
+
+.save {
+    /*font-size: 20px;*/
+    /*display: block;*/
+    top: 20px;
+    position: sticky;
+    float: right;
+    z-index: 1;
+}
+
+.plus {
+    /*font-size: 20px;*/
+    position: sticky;
+    /*display: block;*/
+    top: 20px;
+    margin-right: 10px;
+    float: right;
+    z-index: 1;
+}
+</style>
+<div class="card-body" style="height: 74vh;">
+    <form id="the_form">
+        <div class="stick" align="center">
+            <a class="save" href="#" rel="tooltip" title="Lưu form đề vào cookie!">
+                <span><img src="../../assets/img/save.png"></span>
+            </a>
+            <a class="plus" href="#" rel="tooltip" title="Thêm 1 câu hỏi">
+                <span><img src="../../assets/img/plus.png"></span>
+            </a>
+        </div>
+        <div id="col1">
+            <div class="row">
+                <div class="col mt-2">
+                    <h2 class="text-dark font-weight-bolder text-left mb-3 heading-tende" style="font-family: Quicksand, sans-serif;font-size: 35px;">
+                        <span class="mr-4 tg-text">Tên đề</span>
+                        <input id="name" name="name" maxlength="100" required type="text" class="p-1 input-tende" style="background-color: rgb(233,231,231);border-radius: 10px;border: none;">&nbsp;
+                    </h2>
+                    <h2 class="text-dark font-weight-bolder text-left mb-3 heading-tende" style="font-family: Quicksand, sans-serif;font-size: 35px;">
+                        <span class="mr-4 tg-text">Thời gian</span>
+                        <input id="time" name="time" type="number" required class="mr-2 p-1" style="background-color: rgb(233,231,231);border-radius: 10px;border: none;width: 17%;">
+                        <span class="tg-text">phút</span>
+                    </h2>
+                    <h2 class="text-dark font-weight-bolder text-left mb-3 heading-tende" style="font-family: Quicksand, sans-serif;font-size: 35px;">
+                        <span class="mr-4 tg-text">Tối đa: </span>
+                        <input id="max" name="max" type="number" required class="mr-2 p-1" style="background-color: rgb(233,231,231);border-radius: 10px;border: none;width: 17%;">
+                        <span class="tg-text">câu hỏi</span>
+                    </h2>
+                    <!-- <h2 class="text-dark font-weight-bolder text-left mb-3 heading-tende"
+                        style="font-family: Quicksand, sans-serif;font-size: 35px;">Mã đề: XXXXXXX&nbsp;<span class="font-weight-light" style="font-size: 23px;">(Đây là mã đề do máy tạo, bạn không thể sửa)</span></h2> -->
+                    <h2 class="text-dark font-weight-bolder mb-3" style="font-family: Quicksand, sans-serif;font-size: 35px;">Các câu hỏi</h2>
+                </div>
+            </div>
+        </div>
+        <br><br><br><br><br>
+        <div class="row rowbtn" style="/*width: 80%;*/text-align: center;margin: 0 auto; margin-top: 10px; margin-bottom: 10px;">
+            <div class="col">
+                <input id="taode" name="method" class="btn btn-secondary font-weight-bold" type="submit" style="width: 100%;border-radius: 50px;height: 3rem;font-family: Quicksand, sans-serif;background: green;border: none; opacity: 1.15" value="Tạo đề">
+            </div>
+            <!-- <div class="col">
+                <input id="exit" name="method" class="btn btn-primary font-weight-bold" type="submit" style="width: 100%;border-radius: 50px;height: 3rem;font-family: Quicksand, sans-serif;background: red;border: none;padding: 3px;" value="Thoát">
+            </div> -->
+        </div>
+    </form>
+</div>
+<script>
+function getCookie(name) {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
+}
+
+var method = '';
+$('[rel=tooltip]').tooltip({ trigger: "hover" });
+$('.save').click(() => {
+
+    $.ajax({
+        method: "POST",
+        url: "/home/giaovien/savede",
+        data: { str: JSON.stringify($('#the_form').serializeArray()) }
+    }).done(res => {
+        if (res == 'ok')
+            Swal.fire({ icon: 'success', title: 'Thành công!', text: 'Đã lưu dữ liệu vào cookie!' });
+    })
+})
+$('.save').tooltip({ trigger: "hover" });
+$('.save img').on('dragstart', function(event) { event.preventDefault(); });
+
+
+
+var Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    onOpen: toast => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+    }
+});
+
+$('.plus').click(() => {
+
+    let i = $('.num-ques').length + 1;
+
+    $('#col1').append('<div class="row"> <div class="col pl-4 col-12 mb-3" style="font-family: Quicksand, sans-serif;"> <h1 class="text-left text-dark"><span class="mr-2 num-ques" style="/*padding-top: 10px!important;*/font-family: Montserrat, sans-serif;/*font-size: 70px;*/">' + i + '</span><input id="question' + i + '" required name="question" type="text" class="input-question" placeholder="Nhập câu hỏi của bạn vào đây" style="font-size: 3rem;width: 90%;padding-top: 0!important;font-family: Quicksand, sans-serif;background-color: rgb(233,231,231);border: none;border-radius: 10px;padding: 10px;padding-top: 15px;margin: 0 auto;/*position: absolute;*/top: 1px;height: 4.5rem"> </h1> </div> <div class="col col-12" style="float: left;"> <p class="text-bold mr-3 ans-text" style="display: inline;color: rgb(0,0,0);font-size: 38px;float: left;/*margin-left: 3.3rem;*/font-family: Quicksand, sans-serif;">A</p><input id="ansA' + i + '" required name="ansA" type="text" class="p-3 ans-input" style="display: inline;background-color: rgb(233,231,231);border: none;border-radius: 10px!important;float: left;font-family: Quicksand, sans-serif;/*width: 85%;*/font-size: 20px;" placeholder="Nhập câu trả lời"> </div> <div class="col col-12" style="float: left;"> <p class="text-bold mr-3 ans-text" style="display: inline;color: rgb(0,0,0);font-size: 38px;float: left;/*margin-left: 3.3rem;*/font-family: Quicksand, sans-serif;">B</p><input id="ansB' + i + '" required name="ansB" type="text" class="p-3 ans-input" style="display: inline;background-color: rgb(233,231,231);border: none;border-radius: 10px!important;float: left;font-family: Quicksand, sans-serif;/*width: 85%;*/font-size: 20px;" placeholder="Nhập câu trả lời"> </div> <div class="col col-12" style="float: left;"> <p class="text-bold mr-3 ans-text" style="display: inline;color: rgb(0,0,0);font-size: 38px;float: left;/*margin-left: 3.3rem;*/font-family: Quicksand, sans-serif;">C</p><input id="ansC' + i + '" required name="ansC" type="text" class="p-3 ans-input" style="display: inline;background-color: rgb(233,231,231);border: none;border-radius: 10px!important;float: left;font-family: Quicksand, sans-serif;/*width: 85%;*/font-size: 20px;" placeholder="Nhập câu trả lời"> </div> <div class="col col-12" style="float: left;"> <p class="text-bold mr-2 ans-text" style="display: inline;color: rgb(0,0,0);font-size: 38px;float: left;/*margin-left: 3.3rem;*/font-family: Quicksand, sans-serif;">D</p><input id="ansD' + i + '" required name="ansD" type="text" class="p-3 ans-input" style="display: inline;background-color: rgb(233,231,231);border: none;border-radius: 10px!important;float: left;font-family: Quicksand, sans-serif;/*width: 85%;*/font-size: 20px;" placeholder="Nhập câu trả lời"> </div> <div class="col col-12"> <div class="dropdown" id="dropdown' + i + '"> <div class="select"><span style="color: black">đáp án đúng</span> <i class="fa fa-chevron-left"></i> </div> <input type="hidden" name="ans" value="" required> <ul class="dropdown-menu" id="dropdown-menu' + i + '" style="color: red"> <li id="a" class="center">A</li> <li id="b" class="center">B</li> <li id="c" class="center">C</li> <li id="d" class="center">D</li></ul></div></div></div>');
+
+
+    Toast.fire({
+        icon: "success",
+        title: "Đã thêm 1 câu hỏi!"
+    });
+
+
+
+    $('#dropdown' + i).click(function() {
+        $(this).attr('tabindex', 1).focus();
+        $(this).toggleClass('active');
+        $(this).find('#dropdown-menu' + i).slideToggle(300);
+    });
+
+    $('#dropdown' + i).focusout(function() {
+        $(this).removeClass('active');
+        $(this).find('#dropdown-menu' + i).slideUp(300);
+    });
+
+    $('#dropdown' + i + ' #dropdown-menu' + i + ' li').click(function() {
+        $(this).parents('#dropdown' + i).find('span').text($(this).text());
+        $(this).parents('#dropdown' + i).find('input').attr('value', $(this).text().toUpperCase());
+    });
+})
+
+$('#the_form').submit(function() {
+    $.ajax({
+        method: "POST",
+        url: "home/giaovien/taode",
+        data: { str: JSON.stringify($('#the_form').serializeArray()) }
+    }).done(res => {
+        if (res.mess == 'ok')
+            Swal.fire({ icon: 'success', title: 'Thành công!', text: "Đã tạo đề thành công với mã: " + res.code, allowOutsideClick: false }).then(results => {
+                reAjax({ what: 'quanlichung' }, { what: 'quanlichung' });
+            });
+        if (res.error)
+            Swal.fire({ icon: 'error', title: 'Oops!', text: res.error, allowOutsideClick: false });
+    })
+    return false;
+});
+
+
+var username = "<%-data.username%>";
+if (getCookie('taode')) {
+    var de = JSON.parse(unescape(getCookie('taode')));
+    if (de[username]) {
+        $('#name').val(de[username][0].value);
+        $('#time').val(de[username][1].value);
+        $('#max').val(de[username][2].value);
+        for (let i = 3; i <= de[username].length - 1; i++) {
+            if ((i - 3) % 6 == 0)
+                $('.plus').click();
+
+            if (de[username][i].name == "ans") {
+                let id = '#dropdown' + (Math.floor((i - 3) / 6) + 1);
+                $(id).find('span').text(de[username][i].value || "đáp án đúng");
+                $(id).find('input').attr('value', de[username][i].value.toUpperCase());
+                // qlert('#dropdown'+(Math.floor((i-3)/6)+1));
+                continue;
+            }
+            let id = '#' + de[username][i].name + (Math.floor((i - 3) / 6) + 1);
+            // alert(id);
+            $(id).val(de[username][i].value);
+
+        }
+    }
+}
+
+
+if ($('.num-ques').length == 0)
+    $('.plus').click();
+</script>

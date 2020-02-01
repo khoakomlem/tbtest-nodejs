@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <% include ../partials/giaovien/head %>
+    <title>Home - TB TEST</title>
+</head>
+
+<body>
+    <% include ../partials/giaovien/header %>
+    <div class="container">
+        <div class="card" id="style-7" style="overflow-y: auto;">
+            <div class="card-body" style="height: 74vh;">
+                <% if (typeof(redirect) != 'undefined'){ %>
+                <script>
+                <% if (typeof(data) != 'undefined'){ %>
+                reAjax({ what: '<%-redirect%>' }, { what: '<%-redirect%>', 'data': '<%-data%>' });
+                <% } else { %>
+                reAjax({ what: '<%-redirect%>' }, { what: '<%-redirect%>' });
+                <% } %>
+                </script>
+                <% } %>
+            </div>
+        </div>
+    </div>
+    <% include ../partials/giaovien/footer %>
+</body>
+
+</html>

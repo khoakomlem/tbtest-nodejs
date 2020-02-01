@@ -1,0 +1,88 @@
+<style type="text/css">
+.previous {
+    position: relative;
+    left: -47%;
+    top: -1%;
+    background-color: #4CAF50;
+    color: black;
+    text-decoration: none;
+    display: inline-block;
+    padding: 9px 19px;
+    transition: 0.2s;
+}
+
+.previous:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.round {
+    border-radius: 50%;
+}
+</style>
+<div class="card-body" style="height: 74vh;">
+    <a href="#" class="previous round">&#8249;</a>
+    <div class="card my-4 kshadow" style="background-color: rgb(211,212,214);border: none;">
+        <div class="card-body my-2 mx-2" style="padding: 0;">
+            <h1 class="text-right text-dark mr-3 responsive1" style="width: 50%;float: right;padding: 0;font-size: 46px;">
+                <%-test.id%>
+            </h1>
+            <p class="text-left text-dark responsive pl-3" style="font-weight: bold;font-size: 25px;margin-bottom: 0;font-family: Montserrat, sans-serif;width: 50%;">Tên đề:
+                <%-test.name%>
+            </p>
+            <p class="text-left text-dark pl-3" style="font-family: Montserrat, sans-serif;">Số học sinh để làm đề:
+                <%-test.count%>
+            </p>
+        </div>
+    </div>
+    <%
+        function isEmpty(obj) {
+          for(var prop in obj) {
+            if(obj.hasOwnProperty(prop)) {
+              return false;
+            }
+          }
+          return JSON.stringify(obj) === JSON.stringify({});
+        }
+    %>
+    <%if (typeof(data[0]) != "undefined"){%>
+    <p style="font-size: 23px;color: rgb(0,0,0);font-weight:bold;">Thông tin các học sinh đã làm</p>
+    <%} else {%>
+    <p style="font-size: 23px;color: rgb(0,0,0);font-weight:bold;">Chưa có học sinh nào làm!</p>
+    <%}%>
+    <%for (var i in data) {%>
+    <%
+            var sec = Math.floor(data[i].timedone/1000);
+            var min = Math.floor(sec/60);
+            var sec = sec - min*60;
+        %>
+    <div class="card my-4 kshadow" style="background-color: rgb(211,212,214);border: none;">
+        <div class="card-body my-2 mx-2" style="padding: 0;">
+            <div class="row">
+                <div class="col">
+                    <%
+                            var a = {'id':test.id, 'username':data[i].username};
+                        %>
+                    <a href="#" onclick="reAjax({what:'xembailam'},{what:'xembailam',data:'<%-escape(JSON.stringify(a))%>'})" class="text-left text-dark responsive pl-3" style="text-decoration: none;float: left;font-weight: bold;font-size: 23px!important;margin-bottom: 0;font-family: Montserrat, sans-serif;/*width: 25%;*/">
+                        <%-data[i].name%></a>
+                </div>
+                <div class="col">
+                    <p class="text-center text-muted" style="font-size: 20px;margin-bottom: 0;color: rgb(87,87,87)!important;">Thời gian :
+                        <%-min%> phút
+                        <%-sec%> giây</p>
+                </div>
+                <div class="col">
+                    <h6 class="text-right text-dark mr-3 responsive1" style="/*width: 25%;*/float: right;padding: 0;font-size: 25px!important;margin-bottom: 0;">
+                        <span style="font-size: 20px;color: rgb(37,37,37)!important;">Điểm :&nbsp;</span>
+                        <%-data[i].correct%>/
+                        <%-data[i].socau%>
+                    </h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%}%>
+</div>
+<script>
+$('.previous').click(() => reAjax({ what: 'quanlichung' }, { what: 'quanlichung' }));
+</script>

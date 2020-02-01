@@ -1,0 +1,14 @@
+<div class="card-body" style="height: 74vh;/*display: flex;*//*justify-content: center;*/">
+    <div class="row">
+        <div class="col" style="font-family: Quicksand, sans-serif;text-align: center;">
+            <h1 style="color: rgb(0,0,0);font-family: Quicksand, sans-serif;font-size: 50px;">Làm đề</h1>
+            <p class="text-muted px-3" style="font-family: Quicksand, sans-serif;float: left;font-size: 24px;display: block;width: 100%;">Bạn sẽ được giáo viên cung cấp 1 mã đề, sau đó nhập nó vào ô bên dưới để bắt đầu làm bài</p>
+            <p class="mb-4"><span class="font-weight-bolder mr-2" style="color: rgb(0,0,0);font-size: 54px;">Mã đề</span><input maxlength="6" name="id" id="id" onkeypress="if (event.keyCode==13) reFind($('#id').val().toUpperCase())" class="form-control-lg p-2 mt-4" type="text" style="background-color: rgb(233,231,231);border: none;border-radius: 10px;position: relative;top: -14px;font-size: 25px;text-transform: uppercase;" autocomplete="off"></p><input class="btn btn-primary mt-5 p-3 px-5" type="submit" style="font-size: 26px;background-color: #18bc9c;border:none; color:black;" value="Làm bài!" id="timde" onclick="reFind($('#id').val().toUpperCase())">
+        </div>
+    </div>
+</div>
+<script>
+<%if (typeof(iddanglam)!='undefined'){%>
+reAjax({ what: 'lambai' }, { what: 'lambai', data: JSON.stringify({ id: '<%-iddanglam%>' }) });
+<%}%>
+</script>

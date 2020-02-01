@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<head>
+    <% include ../partials/hocsinh/headhs %>
+    <title>Home - TB TEST</title>
+</head>
+
+<body>
+    <% include ../partials/hocsinh/headerhs %>
+    <div class="container">
+        <div class="card" id="style-7" style="overflow-y: auto;">
+            <div class="card-body" style="height: 74vh;/*display: flex;*//*justify-content: center;*/">
+                <% if (typeof(redirect) != 'undefined'){ %>
+                <script>
+                <% if (typeof(data) != 'undefined'){ %>
+                reAjax({ what: '<%-redirect%>' }, { what: '<%-redirect%>', 'data': '<%-data%>' });
+                <% } else { %>
+                reAjax({ what: '<%-redirect%>' }, { what: '<%-redirect%>' });
+                <% } %>
+                </script>
+                <% } %>
+            </div>
+        </div>
+    </div>
+    <% include ../partials/hocsinh/footerhs %>
+</body>
+
+</html>
