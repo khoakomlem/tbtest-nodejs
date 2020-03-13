@@ -102,7 +102,7 @@ var transporter = nodemailer.createTransport({
 
 function SendMail(email, username, link) {
     var mailOptions = {
-        from: 'pass.hastudents@gmail.com',
+        from: 'visualpascalc@gmail.com',
         to: email,
         subject: 'Xac minh Gmail - TB TEST',
         text: 'Bấm vào đây để xác nhận: ' + link
