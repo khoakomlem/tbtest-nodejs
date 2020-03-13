@@ -146,6 +146,8 @@ app.get('/login', (req, res) => {
 app.post('/login', (req, res) => {
     req.body.password = md5(req.body.password);
     connection.query(parse("SELECT * FROM `member` WHERE `username`='%s' AND `password`='%s' LIMIT 1", req.body.username, req.body.password), (error, data) => {
+        if (error)
+            console.log(error);
         if (data.length == 1) { // dang nhap ok
             if (data[0].email_auth) {
                 res.render('login', { error: 'Bạn chưa xác thực gmail của bạn!' });
@@ -181,7 +183,8 @@ app.post('/register', (req, res) => {
     }
 
     connection.query(parse("SELECT * FROM `member` WHERE `username`='%s' OR `email`='%s' LIMIT 1", req.body.username, req.body.email), (error, data) => {
-
+        if (error)
+            console.log(error);
         if (data.length == 1) {
             if (data[0].email == req.body.email)
                 res.render('register', { error: "Trùng tên email trước đây!" });
@@ -218,11 +221,15 @@ app.get('/home', (req, res, next) => {
     res.setHeader('Cache-Control', 'no-cache');
     if (req.session.type == "hocsinh") {
         connection.query(parse("SELECT * FROM `member` WHERE `username`='%s'", req.session.username), (error, data) => {
+            if (error)
+                console.log(error);
             if (data[0].test) {
                 let arr = JSON.parse(data[0].thongtin);
                 for (var i in arr)
                     if (arr[i].id == data[0].test && arr[i].done_at < Date.now()) {
-                        connection.query(parse("UPDATE `member` SET `test`='' WHERE `username`='%s'", req.session.username), () => {
+                        connection.query(parse("UPDATE `member` SET `test`='' WHERE `username`='%s'", req.session.username), (error) => {
+                            if (error)
+                                console.log(error);
                             let a = { ask: "Đã hết thời gian làm bài, xem kết quả bài vừa rồi?", idmoilam: data[0].test }
                             res.redirect("../home?redirect=dedalam&data=" + JSON.stringify(a));
                         })
@@ -261,7 +268,11 @@ app.post('/home/hocsinh/data', (req, res) => {
             {
                 // let data = JSON.parse(req.body.data);
                 connection.query(parse("SELECT `thongtin` FROM `member` WHERE `username`='%s'", req.session.username), (error, data1) => {
+                    if (error)
+                        console.log(error);
                     connection.query(parse("SELECT * FROM `test`"), (error, data2) => {
+                        if (error)
+                            console.log(error);
                         let test = [];
                         for (var i in data2) {
                             test[data2[i].id] = { ...data2[i] };
@@ -284,6 +295,8 @@ app.post('/home/hocsinh/data', (req, res) => {
         case "quanlitaikhoan":
             {
                 connection.query(parse("SELECT * FROM `member` WHERE `username`='%s' LIMIT 1", req.session.username), (error, data) => {
+                    if (error)
+                        console.log(error);
                     data[0].password = data[0].password.length;
                     res.send({ ...data[0] });
                 })
@@ -293,6 +306,8 @@ app.post('/home/hocsinh/data', (req, res) => {
         case "lamde":
             {
                 connection.query(parse("SELECT `test` FROM `member` WHERE `username`='%s' LIMIT 1", req.session.username), (error, data) => {
+                    if (error)
+                        console.log(error);
                     if (data[0].test) {
                         res.send({ reject: "Đang làm đề kia", iddanglam: data[0].test });
                     } else {
@@ -305,8 +320,14 @@ app.post('/home/hocsinh/data', (req, res) => {
         case "ketqua":
             {
                 connection.query(parse("SELECT `thongtin` FROM `member` WHERE `username`='%s' LIMIT 1", req.session.username), (error, data1) => {
+                    if (error)
+                        console.log(error);
                     connection.query(parse("SELECT * FROM `test` WHERE `id`='%s' LIMIT 1", req.body.id), (error, data2) => {
+                        if (error)
+                            console.log(error);
                         connection.query(parse("SELECT * FROM `tron` WHERE `username`='%s' ORDER BY `num` DESC LIMIT 1", req.session.username), (error, question) => {
+                            if (error)
+                                console.log(error);
                             let arr = [];
                             if (data1[0].thongtin)
                                 arr = JSON.parse(data1[0].thongtin);
@@ -325,19 +346,27 @@ app.post('/home/hocsinh/data', (req, res) => {
             {
                 let body = JSON.parse(unescape(req.body.data));
                 connection.query(parse("SELECT `test` FROM `member` WHERE `username`='%s'", req.session.username), (error, data1) => {
+                    if (error)
+                        console.log(error);
                     if (data1[0].test)
                         connection.query(parse("SELECT `thongtin` FROM `member` WHERE `username`='%s'", req.session.username), (error, data2) => {
+                            if (error)
+                                console.log(error);
                             let arr = [];
                             if (data2[0].thongtin)
                                 arr = JSON.parse(data2[0].thongtin);
                             for (var i in arr)
                                 if (arr[i].id == body.id) { // dò object trong arr[i], id là id của để kiểm tra
                                     connection.query(parse("SELECT * FROM `test`"), (error, data2) => {
+                                        if (error)
+                                            console.log(error);
                                         let test = [];
                                         for (var j in data2) {
                                             test[data2[j].id] = { ...data2[j] };
                                         }
                                         connection.query(parse("SELECT `data` FROM `tron` WHERE `username`='%s' ORDER BY `num` DESC LIMIT 1", req.session.username), (error, response) => {
+                                            if (error)
+                                                console.log(error);
                                             res.send({ time_left: arr[i].done_at - Date.now(), test: test[body.id], data: JSON.parse(response[0].data) }) //milisecond
                                         })
                                     })
@@ -360,8 +389,12 @@ app.post('/home/hocsinh/data', (req, res) => {
 app.post('/home/hocsinh/timde', (req, res) => {
     req.body.id = req.body.id.toUpperCase();
     connection.query(parse("SELECT `id` FROM `test` WHERE `id` = '%s' LIMIT 1", req.body.id), (error, checkid) => {
+        if (error)
+            console.log(error);
         if (checkid.length == 1) {
             connection.query(parse("SELECT * FROM `member` WHERE username = '%s'", req.session.username), (error, data) => {
+                if (error)
+                    console.log(error);
                 if (data[0].test) {
                     res.send({ reject: "Đang làm đề kia", id: data[0].test });
                     return;
@@ -387,8 +420,12 @@ app.post('/home/hocsinh/timde', (req, res) => {
 
 app.post('/home/hocsinh/xacnhanlambai', (req, res, next) => {
     connection.query(parse("SELECT * FROM `test` WHERE id='%s' LIMIT 1", req.body.id), (error, test) => {
+        if (error)
+            console.log(error);
         if (test.length == 1) {
             connection.query(parse("SELECT * FROM `member` WHERE `username`='%s' LIMIT 1", req.session.username), (error, data) => {
+                if (error)
+                    console.log(error);
                 if (data[0].test) {
                     res.send({ reject: "Đang làm đề kia", id: data[0].test });
                     return;
@@ -424,8 +461,12 @@ app.post('/home/hocsinh/xacnhanlambai', (req, res, next) => {
                 // console.log(tron);
                 tron.splice(0, tron.length - test[0].max);
                 // console.log(tron);
-                connection.query(parse("INSERT INTO `tron` (`username`, `data`) VALUES ('%s', '%s')", req.session.username, JSON.stringify(tron)), () => {
-                    connection.query(parse("UPDATE `member` SET `test`='%s', `thongtin`='%s' WHERE `username`='%s'", req.body.id, JSON.stringify(arr), req.session.username), () => {
+                connection.query(parse("INSERT INTO `tron` (`username`, `data`) VALUES ('%s', '%s')", req.session.username, JSON.stringify(tron)), (error) => {
+                    if (error)
+                        console.log(error);
+                    connection.query(parse("UPDATE `member` SET `test`='%s', `thongtin`='%s' WHERE `username`='%s'", req.body.id, JSON.stringify(arr), req.session.username), (error) => {
+                        if (error)
+                            console.log(error);
                         res.send('ok');
                     });
                 });
@@ -444,6 +485,8 @@ app.post('/home/hocsinh/quanlitaikhoan/', (req, res) => { // đổi mật khẩu
         case "name":
             {
                 connection.query(parse("UPDATE `member` SET `name`='%s' WHERE `username`='%s'", req.body.data, req.session.username), error => {
+                    if (error)
+                        console.log(error);
                     res.send({ mess: 'Đã thay đổi tên đại diện thành ' + req.body.data, data: req.body.data });
                 });
             }
@@ -451,6 +494,8 @@ app.post('/home/hocsinh/quanlitaikhoan/', (req, res) => { // đổi mật khẩu
         case "email":
             {
                 connection.query(parse("UPDATE `member` SET `email`='%s' WHERE `username`='%s'", req.body.data, req.session.username), error => {
+                    if (error)
+                        console.log(error);
                     res.send({ mess: 'Đã thay đổi email thành ' + req.body.data, data: req.body.data });
                 });
             }
@@ -458,6 +503,8 @@ app.post('/home/hocsinh/quanlitaikhoan/', (req, res) => { // đổi mật khẩu
         case "password":
             {
                 connection.query(parse("UPDATE `member` SET `password`='%s' WHERE `username`='%s'", md5(req.body.data), req.session.username), error => {
+                    if (error)
+                        console.log(error);
                     res.send({ mess: 'Đã thay đổi thành công mật khẩu mới!', data: req.body.data.length });
                 });
             }
@@ -467,6 +514,8 @@ app.post('/home/hocsinh/quanlitaikhoan/', (req, res) => { // đổi mật khẩu
 
 app.use('/home/lambai/', (req, res, next) => {
     connection.query(parse("SELECT `test` FROM `member` WHERE `username`='%s'", req.session.username), (error, data) => {
+        if (error)
+            console.log(error);
         if (data[0].test == '')
             res.send("Bạn chưa đăng kí làm đề nào!");
         next();
@@ -484,7 +533,11 @@ app.post('/home/lambai/', (req, res) => { //nộp bài
     }
 
     connection.query(parse("SELECT * FROM `member` WHERE `username`='%s'", req.session.username), (error, data) => {
+        if (error)
+            console.log(error);
         connection.query(parse("SELECT * FROM `tron` WHERE `username`='%s' ORDER BY `num` DESC LIMIT 1", req.session.username), (error, tron) => {
+            if (error)
+                console.log(error);
 
             // if (data[0].test == ""){
             //  res.send('hack cc, bố bao ghét họn phá web');
@@ -506,7 +559,10 @@ app.post('/home/lambai/', (req, res) => { //nộp bài
                     arr[i].correct = correct;
                     arr[i].done_at = Date.now();
                     arr[i].bailam = ans;
-                    connection.query(parse("UPDATE `member` SET `thongtin`='%s', `test`='' WHERE `username`='%s'", JSON.stringify(arr), req.session.username));
+                    connection.query(parse("UPDATE `member` SET `thongtin`='%s', `test`='' WHERE `username`='%s'", JSON.stringify(arr), req.session.username), (error) => {
+                        if (error)
+                            console.log(error);
+                    });
                     break;
                 }
             }
@@ -536,7 +592,11 @@ app.post('/home/giaovien/data', (req, res) => {
         case "quanlichung":
             {
                 connection.query(parse("SELECT * FROM `test` WHERE `author`='%s' ORDER BY `i` DESC", req.session.username), (error, test) => {
+                    if (error)
+                        console.log(error);
                     connection.query("SELECT `thongtin` FROM `member` WHERE `type`='hocsinh'", (error, member) => {
+                        if (error)
+                            console.log(error);
                         let danhdau = {};
 
                         for (var i in member) {
@@ -565,7 +625,11 @@ app.post('/home/giaovien/data', (req, res) => {
         case "thongtin":
             { //req.body.id la id can detail
                 connection.query(parse("SELECT * FROM `test` WHERE `id`='%s'", req.body.id), (error, test) => {
+                    if (error)
+                        console.log(error);
                     connection.query("SELECT * FROM `member` WHERE `type`='hocsinh'", (error, member) => {
+                        if (error)
+                            console.log(error);
                         let data = [];
                         let count = 0;
                         for (var i in member) {
@@ -598,8 +662,14 @@ app.post('/home/giaovien/data', (req, res) => {
             {
                 let data_parse = JSON.parse(unescape(req.body.data));
                 connection.query(parse("SELECT * FROM `member` WHERE `username`='%s' LIMIT 1", data_parse.username), (error, data1) => {
+                    if (error)
+                        console.log(error);
                     connection.query(parse("SELECT * FROM `test` WHERE `id`='%s' LIMIT 1", data_parse.id), (error, data2) => {
+                        if (error)
+                            console.log(error);
                         connection.query(parse("SELECT * FROM `tron` WHERE `username`='%s' ORDER BY `num` DESC LIMIT 1", data_parse.username), (error, question) => {
+                            if (error)
+                                console.log(error);
                             let arr = [];
                             if (data1[0].thongtin)
                                 arr = JSON.parse(data1[0].thongtin);
@@ -617,6 +687,8 @@ app.post('/home/giaovien/data', (req, res) => {
         case "quanlitaikhoan":
             {
                 connection.query(parse("SELECT * FROM `member` WHERE `username`='%s' LIMIT 1", req.session.username), (error, data) => {
+                    if (error)
+                        console.log(error);
                     data[0].password = data[0].password.length;
                     res.send({ ...data[0] });
                 })
@@ -657,6 +729,8 @@ app.post('/home/giaovien/quanlitaikhoan/', (req, res) => { // đổi mật khẩ
         case "name":
             {
                 connection.query(parse("UPDATE `member` SET `name`='%s' WHERE `username`='%s'", req.body.data, req.session.username), error => {
+                    if (error)
+                        console.log(error);
                     res.send({ mess: 'Đã thay đổi tên đại diện thành ' + req.body.data, data: req.body.data });
                 });
             }
@@ -664,6 +738,8 @@ app.post('/home/giaovien/quanlitaikhoan/', (req, res) => { // đổi mật khẩ
         case "email":
             {
                 connection.query(parse("UPDATE `member` SET `email`='%s' WHERE `username`='%s'", req.body.data, req.session.username), error => {
+                    if (error)
+                        console.log(error);
                     res.send({ mess: 'Đã thay đổi email thành ' + req.body.data, data: req.body.data });
                 });
             }
@@ -671,6 +747,8 @@ app.post('/home/giaovien/quanlitaikhoan/', (req, res) => { // đổi mật khẩ
         case "password":
             {
                 connection.query(parse("UPDATE `member` SET `password`='%s' WHERE `username`='%s'", md5(req.body.data), req.session.username), error => {
+                    if (error)
+                        console.log(error);
                     res.send({ mess: 'Đã thay đổi thành công mật khẩu mới!', data: req.body.data.length });
                 });
             }
@@ -695,7 +773,9 @@ app.post('/home/giaovien/taode', (req, res) => {
     console.log(code);
     // code = req.body.code;
 
-    connection.query(parse("SELECT `id` FROM `test` WHERE `id`='%s'", code), (err, data) => {
+    connection.query(parse("SELECT `id` FROM `test` WHERE `id`='%s'", code), (error, data) => {
+        if (error)
+            console.log(error);
         if (data.length >= 1) {
             res.send({ error: "Vừa rồi hệ thống vừa tạo 1 mã id đề trùng với id đề trước, vui lòng bấm lại 'tạo đề' để tạo lại, xin lỗi vì sự bất tiện này 😢" })
             return;
@@ -716,7 +796,10 @@ app.post('/home/giaovien/taode', (req, res) => {
             }
         }
 
-        connection.query(parse("INSERT INTO `test` (`name`, `time`, `id`, `data`, `max`, `author`) VALUES ('%s','%s','%s','%s', '%s', '%s')", name, time, code, JSON.stringify(data), max, req.session.username));
+        connection.query(parse("INSERT INTO `test` (`name`, `time`, `id`, `data`, `max`, `author`) VALUES ('%s','%s','%s','%s', '%s', '%s')", name, time, code, JSON.stringify(data), max, req.session.username), (error) => {
+            if (error)
+                console.log(error)
+        });
         res.cookie('taode', '');
         res.send({ mess: 'ok', code: code });
     })
@@ -725,9 +808,14 @@ app.post('/home/giaovien/taode', (req, res) => {
 
 
 app.get('/emailauth', (req, res) => {
-    connection.query(parse("SELECT `email_auth` FROM `member` WHERE `email_auth`='%s' LIMIT 1", req.query.code), (err, data) => {
+    connection.query(parse("SELECT `email_auth` FROM `member` WHERE `email_auth`='%s' LIMIT 1", req.query.code), (error, data) => {
+        if (error)
+            console.log(error);
         if (data.length == 1) {
-            connection.query(parse("UPDATE `member` SET `email_auth`='' WHERE `email_auth`='%s'", req.query.code));
+            connection.query(parse("UPDATE `member` SET `email_auth`='' WHERE `email_auth`='%s'", req.query.code), error => {
+                if (error)
+                    console.log(error);
+            });
             res.render(__dirname + '/views/trangchu/email_auth.ejs', { status: "ok" });
         } else {
             res.render(__dirname + '/views/trangchu/email_auth.ejs', { status: "reject" });
@@ -738,7 +826,9 @@ app.get('/emailauth', (req, res) => {
 app.post('/emailauth', (req, res) => {
     let code = md5(String(Date.now() + 18102004)).toUpperCase();
     SendMail(req.body.email, '', domain + "emailauth?code=" + code);
-    connection.query(parse("UPDATE `member` SET `email_auth`='%s' WHERE `email`='%s'", code, req.body.email), () => {
+    connection.query(parse("UPDATE `member` SET `email_auth`='%s' WHERE `email`='%s'", code, req.body.email), (error) => {
+        if (error)
+            console.log(error);
         res.send('ok');
     });
 })
