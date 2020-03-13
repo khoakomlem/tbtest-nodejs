@@ -105,7 +105,7 @@ function SendMail(email, username, link) {
         from: 'visualpascalc@gmail.com',
         to: email,
         subject: 'Xac minh Gmail - TB TEST',
-        text: 'Bấm vào đây để xác nhận: ' + link
+        text: 'Bấm <a href = "' + link + '">vào đây</a> để xác nhận: ' + link
     };
 
     transporter.sendMail(mailOptions, function(error, info) {
@@ -487,8 +487,8 @@ app.post('/home/lambai/', (req, res) => { //nộp bài
         connection.query(parse("SELECT * FROM `tron` WHERE `username`='%s' ORDER BY `num` DESC LIMIT 1", req.session.username), (error, tron) => {
 
             // if (data[0].test == ""){
-            // 	res.send('hack cc, bố bao ghét họn phá web');
-            // 	return;
+            //  res.send('hack cc, bố bao ghét họn phá web');
+            //  return;
             // }
 
             let quest = JSON.parse(tron[0].data);
