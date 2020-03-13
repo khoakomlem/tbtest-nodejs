@@ -193,7 +193,7 @@ app.post('/register', (req, res) => {
         let code = md5(String(Date.now() + 18102004)).toUpperCase();
         connection.query(parse("INSERT INTO `member` (`name`, `username`, `password`, `email`, `type`, `email_auth`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')", req.body.name, req.body.username, req.body.password, req.body.email, req.body.type, code), (error) => {
             if (error) {
-                // console.log(error);
+                console.log(error);
             }
             SendMail(req.body.email, req.body.name, domain + "emailauth/?code=" + code);
         });
@@ -218,7 +218,7 @@ app.get('/home', (req, res, next) => {
     res.setHeader('Cache-Control', 'no-cache');
     if (req.session.type == "hocsinh") {
         connection.query(parse("SELECT * FROM `member` WHERE `username`='%s'", req.session.username), (error, data) => {
-            if (data[0].test != "") {
+            if (data[0].test) {
                 let arr = JSON.parse(data[0].thongtin);
                 for (var i in arr)
                     if (arr[i].id == data[0].test && arr[i].done_at < Date.now()) {
@@ -293,7 +293,7 @@ app.post('/home/hocsinh/data', (req, res) => {
         case "lamde":
             {
                 connection.query(parse("SELECT `test` FROM `member` WHERE `username`='%s' LIMIT 1", req.session.username), (error, data) => {
-                    if (data[0].test != "") {
+                    if (data[0].test) {
                         res.send({ reject: "Đang làm đề kia", iddanglam: data[0].test });
                     } else {
                         res.send({});
@@ -325,7 +325,7 @@ app.post('/home/hocsinh/data', (req, res) => {
             {
                 let body = JSON.parse(unescape(req.body.data));
                 connection.query(parse("SELECT `test` FROM `member` WHERE `username`='%s'", req.session.username), (error, data1) => {
-                    if (data1[0].test != "")
+                    if (data1[0].test)
                         connection.query(parse("SELECT `thongtin` FROM `member` WHERE `username`='%s'", req.session.username), (error, data2) => {
                             let arr = [];
                             if (data2[0].thongtin)
@@ -362,7 +362,7 @@ app.post('/home/hocsinh/timde', (req, res) => {
     connection.query(parse("SELECT `id` FROM `test` WHERE `id` = '%s' LIMIT 1", req.body.id), (error, checkid) => {
         if (checkid.length == 1) {
             connection.query(parse("SELECT * FROM `member` WHERE username = '%s'", req.session.username), (error, data) => {
-                if (data[0].test != "") {
+                if (data[0].test) {
                     res.send({ reject: "Đang làm đề kia", id: data[0].test });
                     return;
                 }
@@ -389,7 +389,7 @@ app.post('/home/hocsinh/xacnhanlambai', (req, res, next) => {
     connection.query(parse("SELECT * FROM `test` WHERE id='%s' LIMIT 1", req.body.id), (error, test) => {
         if (test.length == 1) {
             connection.query(parse("SELECT * FROM `member` WHERE `username`='%s' LIMIT 1", req.session.username), (error, data) => {
-                if (data[0].test != "") {
+                if (data[0].test) {
                     res.send({ reject: "Đang làm đề kia", id: data[0].test });
                     return;
                 }
