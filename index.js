@@ -105,7 +105,7 @@ function SendMail(email, username, link) {
         from: 'visualpascalc@gmail.com',
         to: email,
         subject: 'Xac minh Gmail - TB TEST',
-        text: 'Bấm <a href = "' + link + '">vào đây</a> để xác nhận: ' + link
+        text: 'Bấm vào đây để xác nhận: ' + link
     };
 
     transporter.sendMail(mailOptions, function(error, info) {
