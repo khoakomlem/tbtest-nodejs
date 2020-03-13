@@ -1,4 +1,4 @@
-function mysql_real_escape_string(str) {
+﻿function mysql_real_escape_string(str) {
     return str.replace(/[\0\x08\x09\x1a\n\r"'\\\%]/g, function(char) {
         switch (char) {
             case "\0":
@@ -75,10 +75,10 @@ var os = require("os");
 
 var mysql = require('mysql');
 var connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "tb_test"
+    host: "remotemysql.com",
+    user: "U4rI4RNuVn",
+    password: "hfLZr96Avr",
+    database: "U4rI4RNuVn"
 });
 
 
