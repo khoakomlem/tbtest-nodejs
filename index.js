@@ -66,7 +66,7 @@ var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
 var nodemailer = require('nodemailer');
 var port = process.env.PORT || 9999;
-var ip = "http://:113.188.156.167" + port + '/';
+// var ip = "http//:113.188.156.167" + port + '/';
 var domain = "https://tranbientest.herokuapp.com/";
 // var domain = "http://localhost:" + port + "/";
 
