@@ -1,0 +1,14 @@
+[
+{
+    "host": "localhost",
+    "user": "root",
+    "password": "",
+    "database": "tbtest"
+},
+{
+    "host": "remotemysql.com",
+    "user": "U4rI4RNuVn",
+    "password": "hfLZr96Avr",
+    "database": "U4rI4RNuVn"
+}
+]

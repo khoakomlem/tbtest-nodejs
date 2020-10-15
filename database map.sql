@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 5.0.3
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Mar 28, 2020 at 07:22 AM
--- Server version: 8.0.13-4
--- PHP Version: 7.2.24-0ubuntu0.18.04.3
+-- Host: 127.0.0.1
+-- Generation Time: Oct 15, 2020 at 07:13 AM
+-- Server version: 10.4.14-MariaDB
+-- PHP Version: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `U4rI4RNuVn`
+-- Database: `tbtest`
 --
 
 -- --------------------------------------------------------
@@ -30,44 +29,24 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `member` (
   `id` bigint(20) NOT NULL,
-  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `username` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `password` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `email` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `type` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `test` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `thongtin` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
-  `email_auth` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `recovery_auth` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL
+  `name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `username` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `type` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `test` varchar(6) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `thongtin` text COLLATE utf8_unicode_ci DEFAULT NULL,
+  `email_auth` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `recovery_auth` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `test`
+-- Dumping data for table `member`
 --
 
-CREATE TABLE `test` (
-  `i` bigint(20) NOT NULL,
-  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `time` smallint(6) NOT NULL,
-  `id` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `data` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `max` int(11) NOT NULL,
-  `author` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tron`
---
-
-CREATE TABLE `tron` (
-  `num` bigint(20) NOT NULL,
-  `username` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `data` text COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+INSERT INTO `member` (`id`, `name`, `username`, `password`, `email`, `type`, `test`, `thongtin`, `email_auth`, `recovery_auth`) VALUES
+(12, 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@gmail.com', 'giaovien', NULL, NULL, NULL, NULL),
+(13, 'test', 'test', '098f6bcd4621d373cade4e832627b4f6', 'test@gmail.com', 'hocsinh', '', '[{\"id\":\"C20E57\",\"correct\":0,\"socau\":2,\"do_at\":1602738555929,\"done_at\":1602738569569,\"bailam\":{\"0\":\"A\",\"1\":\"C\"}}]', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -80,18 +59,6 @@ ALTER TABLE `member`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `test`
---
-ALTER TABLE `test`
-  ADD PRIMARY KEY (`i`);
-
---
--- Indexes for table `tron`
---
-ALTER TABLE `tron`
-  ADD PRIMARY KEY (`num`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -99,19 +66,7 @@ ALTER TABLE `tron`
 -- AUTO_INCREMENT for table `member`
 --
 ALTER TABLE `member`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- AUTO_INCREMENT for table `test`
---
-ALTER TABLE `test`
-  MODIFY `i` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `tron`
---
-ALTER TABLE `tron`
-  MODIFY `num` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

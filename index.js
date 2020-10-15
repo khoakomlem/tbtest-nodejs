@@ -24,17 +24,17 @@
 }
 
 function parse(str) {
-    var args = [].slice.call(arguments, 1),
+    let args = [].slice.call(arguments, 1),
         i = 0;
 
-    for (var j in args)
+    for (let j in args)
         args[j] = mysql_real_escape_string(String(args[j]));
 
     return str.replace(/%s/g, () => args[i++]);
 }
 
 function shuffle(array) {
-    var currentIndex = array.length,
+    let currentIndex = array.length,
         temporaryValue, randomIndex;
 
     // While there remain elements to shuffle...
@@ -53,33 +53,29 @@ function shuffle(array) {
     return array;
 }
 
-var express = require('express');
-var app = require('express')();
+const express = require('express');
+const app = require('express')();
 app.set('view engine', 'ejs');
 
-var fs = require('fs');
-var session = require('express-session')
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-var session = require('express-session');
-var bodyParser = require("body-parser");
-var cookieParser = require("cookie-parser");
-var nodemailer = require('nodemailer');
-var port = process.env.PORT || 9999;
-// var ip = "http//:113.188.156.167" + port + '/';
-var domain = "https://tranbientest.herokuapp.com/";
-// var domain = "http://localhost:" + port + "/";
+const fs = require('fs');
+const session = require('express-session')
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const nodemailer = require('nodemailer');
+const port = process.env.PORT || 9999;
+// let ip = "http//:113.188.156.167" + port + '/';
+// let domain = "https://tranbientest.herokuapp.com/";
+let domain = "http://localhost:" + port + "/";
 
-var md5 = require('md5');
-var os = require("os");
+const md5 = require('md5');
+const os = require("os");
 
-var mysql = require('mysql');
-var connection = mysql.createConnection({
-    host: "remotemysql.com",
-    user: "U4rI4RNuVn",
-    password: "hfLZr96Avr",
-    database: "U4rI4RNuVn"
-});
+const mysql = require('mysql');
+const connection = mysql.createConnection(
+    JSON.parse(fs.readFileSync(__dirname + "/config.json"))[0]
+);
 
 
 http.listen(port, () => console.log('Started on port: *' + port));
@@ -92,7 +88,7 @@ connection.connect(err => {
     console.log('Connected to the databse!');
 })
 
-var transporter = nodemailer.createTransport({
+let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: 'pass.hastudents@gmail.com',
@@ -101,7 +97,7 @@ var transporter = nodemailer.createTransport({
 });
 
 function SendMail(email, username, link) {
-    var mailOptions = {
+    let mailOptions = {
         from: 'visualpascalc@gmail.com',
         to: email,
         subject: 'Xac minh Gmail - TB TEST',
@@ -225,7 +221,7 @@ app.get('/home', (req, res, next) => {
                 console.log(error);
             if (data[0].test) {
                 let arr = JSON.parse(data[0].thongtin);
-                for (var i in arr)
+                for (let i in arr)
                     if (arr[i].id == data[0].test && arr[i].done_at < Date.now()) {
                         connection.query(parse("UPDATE `member` SET `test`='' WHERE `username`='%s'", req.session.username), (error) => {
                             if (error)
@@ -274,7 +270,7 @@ app.post('/home/hocsinh/data', (req, res) => {
                         if (error)
                             console.log(error);
                         let test = [];
-                        for (var i in data2) {
+                        for (let i in data2) {
                             test[data2[i].id] = { ...data2[i] };
                         }
 
@@ -331,7 +327,7 @@ app.post('/home/hocsinh/data', (req, res) => {
                             let arr = [];
                             if (data1[0].thongtin)
                                 arr = JSON.parse(data1[0].thongtin);
-                            for (var i in arr)
+                            for (let i in arr)
                                 if (arr[i].id == req.body.id) { // nếu trùng id bài kiểm tra thì send
                                     res.send({ data: arr[i], test: { ...data2 }, question: JSON.parse(question[0].data) });
                                     break;
@@ -355,13 +351,13 @@ app.post('/home/hocsinh/data', (req, res) => {
                             let arr = [];
                             if (data2[0].thongtin)
                                 arr = JSON.parse(data2[0].thongtin);
-                            for (var i in arr)
+                            for (let i in arr)
                                 if (arr[i].id == body.id) { // dò object trong arr[i], id là id của để kiểm tra
                                     connection.query(parse("SELECT * FROM `test`"), (error, data2) => {
                                         if (error)
                                             console.log(error);
                                         let test = [];
-                                        for (var j in data2) {
+                                        for (let j in data2) {
                                             test[data2[j].id] = { ...data2[j] };
                                         }
                                         connection.query(parse("SELECT `data` FROM `tron` WHERE `username`='%s' ORDER BY `num` DESC LIMIT 1", req.session.username), (error, response) => {
@@ -403,7 +399,7 @@ app.post('/home/hocsinh/timde', (req, res) => {
                 if (data[0].thongtin)
                     arr = JSON.parse(data[0].thongtin);
 
-                for (var i in arr)
+                for (let i in arr)
                     if (arr[i].id == req.body.id && arr[i].done_at < Date.now()) {
                         res.send('dalamde');
                         return;
@@ -436,7 +432,7 @@ app.post('/home/hocsinh/xacnhanlambai', (req, res, next) => {
                     arr = JSON.parse(data[0].thongtin);
 
                 let ok = false; // tim thấy id request trong thong tin
-                for (var i in arr)
+                for (let i in arr)
                     if (arr[i].id == req.body.id) {
                         ok = i;
                     }
@@ -525,7 +521,7 @@ app.use('/home/lambai/', (req, res, next) => {
 app.post('/home/lambai/', (req, res) => { //nộp bài
 
     let ans = {};
-    for (var i in req.body) {
+    for (let i in req.body) {
         if (/answer\d+\b/.test(i) && /\b[A-Da-d]\b/.test(req.body[i])) {
             let index = Number(/\d+\b/.exec(i)[0]);
             ans[index] = req.body[i].toUpperCase();
@@ -546,7 +542,7 @@ app.post('/home/lambai/', (req, res) => { //nộp bài
 
             let quest = JSON.parse(tron[0].data);
             let correct = 0;
-            for (var i in quest)
+            for (let i in quest)
                 if (ans[i] && quest[i].ans == ans[i])
                     correct++;
 
@@ -554,7 +550,7 @@ app.post('/home/lambai/', (req, res) => { //nộp bài
             if (data[0].thongtin)
                 arr = JSON.parse(data[0].thongtin);
 
-            for (var i in arr) {
+            for (let i in arr) {
                 if (arr[i].id == data[0].test) {
                     arr[i].correct = correct;
                     arr[i].done_at = Date.now();
@@ -599,11 +595,11 @@ app.post('/home/giaovien/data', (req, res) => {
                             console.log(error);
                         let danhdau = {};
 
-                        for (var i in member) {
+                        for (let i in member) {
                             let thongtin = [];
                             if (member[i].thongtin)
                                 thongtin = JSON.parse(member[i].thongtin);
-                            for (var i1 in thongtin) {
+                            for (let i1 in thongtin) {
                                 if (!danhdau[thongtin[i1].id])
                                     danhdau[thongtin[i1].id] = 0;
                                 if (thongtin[i1].done_at < Date.now())
@@ -612,7 +608,7 @@ app.post('/home/giaovien/data', (req, res) => {
                         }
                         console.log(danhdau);
                         let count = {};
-                        for (var i in test) {
+                        for (let i in test) {
                             test[i].data = "";
                             count[test[i].id] = danhdau[test[i].id];
                         }
@@ -632,12 +628,12 @@ app.post('/home/giaovien/data', (req, res) => {
                             console.log(error);
                         let data = [];
                         let count = 0;
-                        for (var i in member) {
+                        for (let i in member) {
                             let thongtin = [];
                             if (member[i].thongtin)
                                 thongtin = JSON.parse(member[i].thongtin);
 
-                            for (var j in thongtin)
+                            for (let j in thongtin)
                                 if (thongtin[j].id == req.body.id && thongtin[j].done_at < Date.now()) {
                                     count++;
                                     data.push({
@@ -673,7 +669,7 @@ app.post('/home/giaovien/data', (req, res) => {
                             let arr = [];
                             if (data1[0].thongtin)
                                 arr = JSON.parse(data1[0].thongtin);
-                            for (var i in arr)
+                            for (let i in arr)
                                 if (arr[i].id == data_parse.id) { // nếu trùng id bài kiểm tra thì send
                                     res.send({ data: arr[i], test: { ...data2 }, question: JSON.parse(question[0].data), name: data1[0].name + ' (' + data_parse.username + ')' });
                                     return;
@@ -769,7 +765,7 @@ app.post('/home/giaovien/taode', (req, res) => {
     }
     let arr = {};
     let data = [];
-    var code = md5(String(Date.now() + 18102004)).substr(2, 6).toUpperCase();
+    let code = md5(String(Date.now() + 18102004)).substr(2, 6).toUpperCase();
     console.log(code);
     // code = req.body.code;
 
@@ -781,14 +777,14 @@ app.post('/home/giaovien/taode', (req, res) => {
             return;
         }
 
-        for (var i in request) {
+        for (let i in request) {
             if (request[i].value == "" && request[i].name == 'ans') {
                 res.send({ error: "Hình như bạn vừa quên điền phần \"đáp án đúng\" ở câu nào đó!" });
                 return;
             }
         }
 
-        for (var i = 3; i <= request.length - 1; i++) {
+        for (let i = 3; i <= request.length - 1; i++) {
             arr[request[i].name] = request[i].value;
             if ((i - 2) % 6 == 0) {
                 data.push(arr);
