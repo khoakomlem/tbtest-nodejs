@@ -1,7 +1,7 @@
 # Trấn Biên Test - Trắc nghiệm online
 ## Cài đặt môi trường
 ### 1. Cài nodejs, xampp
-Đảm bảo trong máy tính của bạn có nodejs và 1 server mysql trong localhost để tbtest tương tác, có thể thay đổi các thông số database name, address, ... trong file **config.json**
+Đảm bảo trong máy tính của bạn có nodejs và 1 server mysql trong localhost để tbtest tương tác, có thể thay đổi các thông số database name, address, ... trong file **config.json** (tbtest sẽ lấy configs[0] để connect)
 ### 2. Import database template
 Tạo 1 database mới sau đó copy paste tất cả các lệnh SQL trong file **database map.sql** vào form bên dưới và nhấn **Go**.
 ![phpmyadmin](https://i.snipboard.io/RflWmy.jpg)
