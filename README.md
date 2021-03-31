@@ -15,5 +15,5 @@ Web sẽ xuất hiện ở trang **http://localhost:9999/** !
 Tài khoản thử nghiệm: (**username**|**password**)<br>
 Giáo viên: **admin**|**admin**<br>
 Học sinh: **test**|**test**<br>
-Mã đề thử nghiệm: **C20E57**
+Mã đề thử nghiệm: **AA0C4E**
 # Made by Khoa Ko Mlem (THPT Tran Bien) and Binh Le (THPT LUONG THE VINH)
