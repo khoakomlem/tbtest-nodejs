@@ -16,7 +16,7 @@
     "express-session": "^1.17.0",
     "md5": "^2.2.1",
     "mysqli": "^3.0.11",
-    "nodemailer": "^6.3.1",
+    "nodemailer": "^6.4.16",
     "os": "^0.1.1",
     "socket.io": "^2.3.0"
   }
